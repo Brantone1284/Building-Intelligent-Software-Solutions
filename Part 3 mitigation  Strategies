@@ -1,0 +1,24 @@
+Mitigation Strategies:
+
+Disparate Impact Analysis:
+Use metrics.DisparateImpactRatio() to quantify bias across age groups
+
+python
+from aif360.metrics import BinaryLabelDatasetMetric
+metric = BinaryLabelDatasetMetric(transformed_data, 
+                                 unprivileged_groups=[{'age':0}])
+print(f"Disparate Impact Ratio: {metric.disparate_impact()}")
+Adversarial Debiasing:
+Remove age/race correlations using:
+
+python
+from aif360.algorithms.inprocessing import AdversarialDebiasing
+debiased_model = AdversarialDebiasing(privileged_groups=privileged_group,
+                                     unprivileged_groups=[{'age':0}])
+Bias Auditing:
+Generate fairness reports with 20+ metrics:
+
+python
+from aif360.metrics import ClassificationReport
+report = ClassificationReport(model, dataset)
+report.bias_report()  # Shows metrics by subgroup
