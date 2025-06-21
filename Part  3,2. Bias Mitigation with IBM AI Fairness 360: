@@ -1,0 +1,19 @@
+# Sample bias mitigation code
+from aif360.algorithms.preprocessing import Reweighing
+from aif360.datasets import StandardDataset
+
+# Convert to AIF360 dataset format
+protected_attribute = 'age'  # Focus on age bias
+privileged_group = [{'age': 1}]  # 1 = middle-aged (40-60)
+dataset = StandardDataset(df, label_name='priority', 
+                         protected_attribute_names=[protected_attribute])
+
+# Apply reweighing algorithm
+RW = Reweighing(unprivileged_groups=[{'age': 0}],  # 0 = non-middle-aged
+               privileged_groups=privileged_group)
+transformed_data = RW.fit_transform(dataset)
+
+# Train model on debiased data
+X_debiased = transformed_data.features
+y_debiased = transformed_data.labels
+model.fit(X_debiased, y_debiased)
