@@ -1,0 +1,31 @@
+Part 3: Ethical Reflection (10%)
+Prompt:
+*"Your predictive model from Task 3 is deployed in a healthcare company. Discuss:
+
+Potential biases in the dataset (e.g., underrepresented groups)
+
+How fairness tools like IBM AI Fairness 360 could address these biases"*
+
+Sample Response Structure
+1. Potential Biases:
+
+Demographic Bias:
+Dataset exclusively contains female patients (breast cancer focus), ignoring male breast cancer cases (1% of total cases). This could lead to misdiagnosis for male patients.
+
+Age Bias:
+Majority of patients aged 40-60 (median=54), underrepresenting:
+
+Younger patients (<30): 0.2% of dataset
+
+Elderly patients (>80): 1.7% of dataset
+Consequence: Model accuracy drops to 82% for age extremes.
+
+Racial Bias:
+85% White patients, with significant underrepresentation:
+
+Black: 7.2%
+
+Asian: 3.1%
+
+Hispanic: 2.9%
+Risk: Model may misinterpret tumor patterns in non-White populations.
