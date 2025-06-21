@@ -1,0 +1,36 @@
+Dataset: Breast Cancer Wisconsin Dataset
+Goal: Predict issue priority (high/medium/low) using diagnostic features
+
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
+
+# Load data
+df = pd.read_csv("data.csv")
+
+# Clean data
+df = df.drop(columns=['Unnamed: 32', 'id'])  # Remove useless columns
+df['diagnosis'] = df['diagnosis'].map({'M': 'high', 'B': 'low'})  # Map diagnosis to priority
+
+# Create synthetic "medium" priority class (since dataset only has high/low)
+import numpy as np
+np.random.seed(42)
+medium_mask = (df['radius_mean'] > 12) & (df['radius_mean'] < 17)
+df.loc[medium_mask, 'diagnosis'] = 'medium'
+
+# Encode labels
+le = LabelEncoder()
+df['priority'] = le.fit_transform(df['diagnosis'])  # high=2, medium=1, low=0
+
+# Split features/target
+X = df.drop(columns=['diagnosis', 'priority'])
+y = df['priority']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Scale features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
